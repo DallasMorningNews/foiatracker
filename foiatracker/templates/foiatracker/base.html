@@ -1,0 +1,44 @@
+{% load staticfiles bootstrap3 %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{% block title %}{% endblock %} | FOIAtracker</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="shortcut icon" type="image/x-icon" href="{% static "foiatracker/favicon.ico" %}">
+
+  <link rel="stylesheet" href="{% static "foiatracker/css/main.css" %}" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic,700italic,500italic" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body class="{% block body_classes %}{% endblock %}">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'foia-list' %}">
+          <img src="{% static "foiatracker/foia-tracker-logo.svg" %}" alt="FOIAtracker logo">
+        </a>
+      </div>
+
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'foia-list' %}"><i class="fa fa-envelope"></i><br />Requests</a></li>
+        <li><a href="{% url 'project-list' %}"><i class="fa fa-folder"></i><br />Projects</a></li>
+        <li><a href="http://wiki.dallasnews.com/FOIAtracker" target="_blank"><i class="fa fa-question"></i><br />Help</a></li>
+      </ul>
+
+      <p class="navbar-text navbar-right">
+        {{ request.user.username }} <i class="fa fa-lock"></i>
+      </p>
+    </div>
+  </nav>
+  <div id="snackbar">
+    {% bootstrap_messages %}
+  </div>
+  {% block content %}{% endblock content %}
+  <script src="{% static "foiatracker/js/scripts.js" %}"></script>
+  {% block page_scripts %}{% endblock %}
+</body>
+</html>

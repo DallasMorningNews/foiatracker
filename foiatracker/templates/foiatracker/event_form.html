@@ -1,0 +1,100 @@
+{% extends 'foiatracker/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{% spaceless %}
+  {% if event.id %}
+    Edit "{{ event }}"
+  {% else %}
+    Save a new event
+  {% endif %}
+{% endspaceless %}{% endblock %}
+
+{% block body_classes %}form-page{% endblock %}
+
+{% block content %}
+{% if email %}
+  <div class="container">
+    <div class="alert alert-info">
+      <p>This event was automatically created using an e-mail sent to <a class="alert-link" href="mailto:foia@postbox.dallasnews.com">foia@postbox.dallasnews.com</a>.</p>
+    </div>
+  </div>
+{% endif %}
+
+<div class="container container-panel">
+  <div class="page-header">
+    {% if event.id %}
+      <h1>Edit event on <em>"{{ event.foia }}"</em> records request</h1>
+    {% else %}
+      <h1>Add an update</h1>
+    {% endif %}
+  </div>
+  <form action="" method="post" class="form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset>
+      <legend>Event details</legend>
+      {# If the user came from an e-mail, show the FOIA selector; otherwise it'll come from the URL #}
+      {% if not email %}
+        <div class="hidden">
+      {% endif %}
+        {% bootstrap_field field=form.foia %}
+      {% if not email %}
+        </div>
+      {% endif %}
+      {% bootstrap_field field=form.update_date %}
+      {% bootstrap_field field=form.status %}
+      <div id="amounts" class="row">
+        <div class="col-xs-6">
+          {% bootstrap_field field=form.amount_asked %}
+        </div>
+        <div class="col-xs-6">
+          {% bootstrap_field field=form.amount_paid %}
+        </div>
+      </div>
+      {% bootstrap_field field=form.notes %}
+      {{ form.email }}
+      <div class="form-submit-btns">
+        <div class="container">
+          {% buttons %}
+              {% if event.id %}
+                <a class="btn btn-primary" href="{% url 'event-delete' pk=event.id %}">Delete</a>
+              {% endif %}
+              <div class="pull-right">
+                <a class="btn btn-primary" href="{% url 'foia-list' %}">Cancel</a>
+                {% bootstrap_button button_class='btn-primary-action' button_type='submit' content='Save' %}
+              </div>
+          {% endbuttons %}
+        </div>
+      </div>
+    </fieldset>
+    {% if email %}
+      <fieldset class="collapsible collapsed">
+        <legend>Related e-mail</legend>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <label class="control-label">From</label>
+            <p class="form-control-static">{{ email.sender }}</p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label class="control-label">To</label>
+            <p class="form-control-static">{{ email.recipients_str }}</p>
+          </div>
+        </div>
+        <label class="control-label">Subject</label>
+        <p class="form-control-static">{{ email.subject }}</p>
+        <label class="control-label">Message</label>
+        <p class="form-control-static">{{ email.text|linebreaks }}</p>
+        <label class="control-label">Attachments</label>
+        {% for attachment in email.attachments.all %}
+          <p class="form-control-static">
+            <a href="{{ attachment.download_url }}">{{ attachment.filename }}</a><br /><small><i class="fa fa-{{ attachment.icon }}"></i> {{ attachment.content_type }} ({{ attachment.size|filesizeformat }})</small>
+          </p>
+        {% empty %}
+          <p class="form-control-static">No attachments</p>
+        {% endfor %}
+      </fieldset>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}
+
+{% block page_scripts %}{% endblock %}

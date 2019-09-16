@@ -1,0 +1,56 @@
+{% extends 'foiatracker/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}All projects{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <div>
+      <div class="btn-group pull-right" role="toolbar">
+        <a class="btn btn-default" href="{% url 'project-add' %}"><i class="fa fa-plus"></i> New project</a>
+      </div>
+    </div>
+
+    <h1>{% if filter_me_active %}My{% else %}All{% endif %} projects{% if active_filters.search %} containing <em>"{{ active_filters.search }}"</em>{% endif %}</h1>
+    {% if page_obj.paginator.count %}
+      <p>Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}{% if active_filters.search %} matching requests{% endif %}</p>
+    {% endif %}
+  </div>
+
+  {% for project in object_list %}
+    <div class="panel-with-actions">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-12 col-sm-8">
+              <h2>{{ project.name }}</h2>
+              <p>{{ project.description }}</p>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <p class="text-label text-right">Collaborators:</strong> {% spaceless %}
+                {% for c in project.collaborators.all %}
+                  {{ c }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              {% endspaceless %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <i class="fa fa-envelope"></i> {{ project.requests.count }} requests
+        </div>
+      </div>
+      <div class="panel-actions">
+        <a class="btn btn-primary" href="{% url 'project-edit' pk=project.pk %}"><i class="fa fa-edit"></i><span class="hidden-xs hidden-sm"> Edit</span></a>
+      </div>
+    </div>
+  {% empty %}
+    <div class="alert alert-warning" role="alert">No projects found that match your search.</div>
+  {% endfor %}
+</div>
+{% if page_obj.has_other_pages %}
+  <div class="text-center">
+    {% bootstrap_pagination page_obj %}
+  </div>
+{% endif %}
+{% endblock %}

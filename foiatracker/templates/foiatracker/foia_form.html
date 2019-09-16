@@ -1,0 +1,123 @@
+{% extends 'foiatracker/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Edit "{{ foia }}"{% endblock %}
+
+{% block body_classes %}form-page{% endblock %}
+
+{% block content %}
+<div class="container container-panel">
+  <div class="page-header">
+    <h1>Edit <em>"{{ foia }}"</em></h1>
+  </div>
+  <form action="" method="post" class="form" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    <fieldset>
+      <legend>Request details</legend>
+      {% bootstrap_field field=form.request_subject %}
+      {% bootstrap_field field=form.recipients %}
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          {% bootstrap_field field=form.sent %}
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          {% bootstrap_field field=form.agency_id %}
+        </div>
+      </div>
+      {% bootstrap_field field=form.notes %}
+      <div class="hidden">
+        {% bootstrap_field field=form.email %}
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Project</legend>
+      {% bootstrap_field field=form.project show_label=False %}
+      <p class="help-block">Place this request in a project to track it alongside related requests</p>
+    </fieldset>
+    <fieldset>
+      <legend>Reminder</legend>
+      {% bootstrap_formset_errors reminders %}
+      {% bootstrap_formset reminders %}
+    </fieldset>
+    <fieldset class="collapsible collapsed">
+      <legend>Related e-mail</legend>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <label class="control-label">From</label>
+          <p class="form-control-static">{{ foia.email.sender }}</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <label class="control-label">To</label>
+          <p class="form-control-static">{{ foia.email.recipients_str }}</p>
+        </div>
+      </div>
+      <label class="control-label">Subject</label>
+      <p class="form-control-static">{{ foia.email.subject }}</p>
+      <label class="control-label">Message</label>
+      <p class="form-control-static">{{ foia.email.raw|linebreaks }}</p>
+      <label class="control-label">Attachments</label>
+      {% for attachment in email.attachments.all %}
+        <p class="form-control-static">
+          <a href="{{ attachment.download_url }}">{{ attachment.filename }}</a><br /><small><i class="fa fa-{{ attachment.icon }}"></i> {{ attachment.content_type }} ({{ attachment.size|filesizeformat }})</small>
+        </p>
+      {% empty %}
+        <p class="form-control-static">No attachments</p>
+      {% endfor %}
+    </fieldset>
+    <div class="form-submit-btns">
+      <div class="container">
+        {% buttons %}
+          {% if foia.id %}
+            <a class="btn btn-primary" href="{% url 'foia-delete' pk=foia.id %}">Delete</a>
+          {% endif %}
+          <div class="pull-right">
+            <a class="btn btn-primary" href="{% url 'foia-list' %}">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-primary-action">Save</button>
+          </div>
+        {% endbuttons %}
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container container-panel">
+  <a class="btn btn-primary pull-right btn-sm" href="{{ foia.add_event_url }}"><i class="fa fa-plus"></i> Add an update</a>
+  <h3>Updates</h3>
+  {% if foia.event_set.count %}
+    <p>Forward upates to <code>foia@postbox.dallasnews.com</code> to record them here.</p>
+    {% for event in foia.event_set.all %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {% with days_since=event.business_days_since_request.days %}
+            {{ event.update_date|date:"N j, Y" }} <small>({% if days_since == 0 %}same day{% else %}{{ days_since }} day{{ days_since|pluralize }} out{% endif %})</small>
+          {% endwith %}
+          <ul class="pull-right list-inline">
+            <li><a href="{% url 'event-edit' pk=event.pk %}"><i class="fa fa-edit"></i> Edit</a></li>
+          </ul>
+        </div>
+        <div class="panel-body">
+          <label class="control-label">Status</label>
+          <p class="form-control-static"><i class="fa fa-circle status-{{ event.status }}"></i> {{ event }}</p>
+          {% if event.notes %}
+            <label class="control-label">Notes</label>
+            <p class="form-control-static">{{ event.notes }}</p>
+          {% endif %}
+          {% with attachments=event.email.attachments.all %}
+            {% if attachments %}
+              <label class="control-label">Attachments</label>
+              {% for attachment in attachments %}
+                <p class="form-control-static">
+                  <a href="{{ attachment.download_url }}">{{ attachment.filename }}</a><br /><small><i class="fa fa-{{ attachment.icon }}"></i> {{ attachment.content_type }} ({{ attachment.size|filesizeformat }})</small>
+                </p>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>There are no updates recorded for this request. Add one by forwarding correspondence about the request to <code>foia@postbox.dallasnews.com</code> or with the <a class="btn btn-default btn-xs" href="{{ foia.add_event_url }}"><i class="fa fa-plus"></i> Add an update</a> button above.</p>
+  {% endif %}
+</div>
+{% endblock %}

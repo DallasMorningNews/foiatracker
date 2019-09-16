@@ -1,0 +1,84 @@
+//
+// Bootstrap variables
+// --------------------------------------------------
+
+
+//== Colors
+
+$gray-darker: #3C3C3C;
+$gray-dark: #424242;
+$gray: #757575;
+$gray-light: #DBDBDB;
+$gray-lighter: #F5F5F5;
+
+$brand-primary: #0185D3;
+$brand-success: #11913C;
+$brand-info: #86F7F7;
+$brand-warning: #ffc812;
+$brand-danger: #EB5959;
+
+
+//== Scaffolding
+
+$body-bg: #eee;
+
+
+//== Typography
+
+$font-family-sans-serif: "Roboto", sans-serif;
+$font-size-base: 16px;
+$font-size-h1: 34px;
+$font-size-h2: 28px;
+$font-size-h3: 22px;
+$font-size-h4: 18px;
+$font-size-h5: 15px;
+$font-size-h6: 12px;
+
+
+//== Components
+
+$border-radius-base: 2px;
+
+
+//== Forms
+
+$input-color: $gray-darker;
+$input-bg: transparent;
+$input-border: transparent;
+$input-border-radius: 0;
+$input-border-radius-large: 0;
+$input-border-radius-small: 0;
+$input-border-focus: transparent;
+$input-color-placeholder: #9E9E9E;
+$input-height-base: 32px;
+$legend-border-color: $gray-darker;
+
+
+//== Navbar
+
+$navbar-height: 88px;
+$navbar-inverse-bg: $gray-darker;
+$navbar-inverse-link-color: $gray-lighter;
+$navbar-border-radius: 0;
+
+
+//== Panels
+
+$panel-body-padding: 15px 22px 6px;
+$panel-heading-padding: 9px 22px 6px;
+$panel-footer-bg: #DBDBDB;
+$panel-footer-padding: 6px 22px;
+
+$panel-default-border: #e0e0e0;
+$panel-default-heading-bg: #DBDBDB;
+
+
+//== Type
+
+$page-header-border-color: transparent;
+
+
+//== Container sizes
+
+$container-desktop: 820px;
+$container-large-desktop: 820px;

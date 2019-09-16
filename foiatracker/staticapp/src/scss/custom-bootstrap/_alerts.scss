@@ -1,0 +1,95 @@
+$alert-alive-time: 10s;
+$animation-timing: cubic-bezier(0.250, 0.460, 0.450, 0.940);
+
+/**
+ * Any alerts wrapped in a #snackbar <div> will be animated in and auto-dismiss
+ * using a CSS animation after $alert-alive-time
+ */
+#snackbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+
+    @include animation-name(snackBarExit);
+    @include animation-duration(0.6s);
+    @include animation-delay($alert-alive-time);
+    @include animation-timing-function($animation-timing);
+    @include animation-fill-mode(forwards);
+
+    .alert.alert-dismissable {
+        background-color: #323232;
+        border-radius: 2px;
+        border: none;
+        color: #FFFFFF;
+        max-width: 650px;
+        padding: 14px 24px;
+        margin: 1px auto -65px;
+
+        @include animation-name(alertEnter);
+        @include animation-duration(0.6s);
+        @include animation-timing-function($animation-timing);
+        @include animation-fill-mode(forwards);
+
+        /**
+         * Override the standard close butto to add the word "Dismiss" and
+         * make it stand out a bit more on our black snackbar
+         */
+        button.close {
+            opacity: 1;
+            color: #EEFF41;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 25px;
+            padding-right: 16px;
+            text-transform: uppercase;
+            text-shadow: none;
+            &:hover {
+                color: #AEEA00;
+            }
+            &::before {
+                content: "Dismiss ";
+                opacity: 1;
+            }
+        }
+
+    }
+}
+
+/**
+ * On pages that have forms (and therefore a persistent, sticky bottom bar
+ * w/ form buttons), add a bit of extra distance between the snack bar and
+ * viewport bottom
+ */
+.form-page #snackbar {
+  bottom: 48px;
+}
+
+/**
+ * Animations for alert entry/exit
+ */
+@-webkit-keyframes alertEnter{
+    from {margin-bottom: -65px;}
+    to {margin-bottom: 0;}
+}
+@-moz-keyframes alertEnter{
+    from {margin-bottom: -65px;}
+    to {margin-bottom: 0;}
+}
+@keyframes alertEnter{
+    from {margin-bottom: -65px;}
+    to {margin-bottom: 0;}
+}
+
+@-webkit-keyframes snackBarExit {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+@-moz-keyframes snackBarExit {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+@keyframes snackBarExit {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}

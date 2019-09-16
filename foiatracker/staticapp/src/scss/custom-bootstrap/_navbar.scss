@@ -1,0 +1,50 @@
+// Custom sizing for the DMN logo
+.navbar-brand {
+  padding-top: 22px;
+  padding-bottom: 22px;
+  > img {
+    max-height: 65px;
+    width: 220px;
+  }
+}
+
+.navbar-nav {
+  @media(max-width: $screen-xs-max) {
+    display: none;
+  }
+
+  margin-left: 20px;
+
+  > li {
+    > a {
+      padding-top: 20px;
+      padding-bottom: 14px;
+      padding-left: 30px;
+      padding-right: 20px;
+      border-left: 1px solid rgba(255,255,255,0.3);
+      text-align: center;
+      font-size: 15px;
+      margin-right: 10px;
+
+      .fa {
+        font-size: 25px;
+      }
+    }
+  }
+}
+
+// Undo negative margin-right on right-aligned navbar-text so it doesn't go
+// all the way to the edge of the <body>
+@media(min-width: $grid-float-breakpoint) {
+  .navbar-text.navbar-right {
+    margin-right: 0;
+  }
+}
+
+// Anchor text toward the bottom of the nav and add a bit of text-shadow since
+// some of our background colors are a bit light
+.navbar-text {
+  margin-top: 45px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 2px rgba(0,0,0,0.2);
+}

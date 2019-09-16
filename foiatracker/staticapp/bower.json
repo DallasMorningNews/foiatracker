@@ -1,0 +1,15 @@
+{
+  "name": "foiatracker-client",
+  "homepage": "https://github.com/DallasMorningNews/dataLab",
+  "authors": [
+    "Andrew Chavez <adchavez@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "^3.3.6",
+    "font-awesome": "^4.6.2"
+  }
+}

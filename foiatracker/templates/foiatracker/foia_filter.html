@@ -1,0 +1,103 @@
+{% extends 'foiatracker/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="filters clearfix row">
+    <div class="col-xs-12 col-sm-5">
+      <form class="form form-search" method="GET">
+        <div class="input-group">
+          <input class="form-control input pull-left" type="text" value="{{ active_filters.search }}" name="search" placeholder="Search"></input>
+          <span class="input-group-btn">
+            <button type="submit" class="pull-left btn btn-default btn"><i class="fa fa-search"></i></button>
+          </span>
+        </div>
+        {% if active_filters.search %}
+          <p class="help-text"><a class="text-danger" href="{{ clear_search_url }}"><i class="fa fa-times"></i> Clear search</a></p>
+        {% endif %}
+      </form>
+    </div>
+    <div class="col-xs-12 col-sm-7">
+      <div class="btn-group pull-right" role="toolbar" style="margin-left:10px;">
+        <a class="btn btn-{% if not filter_me_active %}primary{% else %}default{% endif %}" href="{{ filter_all }}">All</a>
+        <a
+          class="btn btn-{% if filter_me_active %}primary{% else %}default{% endif %}"
+          {% if request.user.email %} href="{{ filter_me }}"{% endif %}
+          {% if not request.user.email %} disabled="disabled"{% endif %}>Mine</a>
+      </div>
+
+      <div class="btn-group pull-right" role="toolbar">
+        <a class="btn btn-{% if not active_filters.status %}primary{% else %}default{% endif %}" href="{{ filter_status_clear }}">All</a>
+        <a class="btn btn-{% if filter_status_pending_active %}primary{% else %}default{% endif %}" href="{{ filter_status_pending_link }}">Pending</a>
+        <a class="btn btn-{% if filter_status_complete_active %}primary{% else %}default{% endif %}" href="{{ filter_status_complete_link }}">Resolved</a>
+      </div>
+    </div>
+  </div>
+  <div class="page-header">
+    <h1>{{ page_title }}</h1>
+    <p><i class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+      {% if active_filters.search %}
+        Best matches first
+      {% else %}
+        Most recent first
+      {% endif %}
+
+      {% if page_obj.paginator.count %}
+        <span class="pull-right">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}{% if active_filters.search %} matching requests{% endif %}</span>
+      {% endif %}
+    </p>
+  </div>
+  {% for foia in object_list %}
+    <div class="panel-with-actions panel-foia">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-12 col-sm-8">
+              {% if foia.project %}
+                <span class="badge badge-project"><i class="fa fa-folder"></i> {{ foia.project.name }}</span>
+              {% endif %}
+              <h2>{{ foia }}</h2>
+              {% if foia.event_set.count %}
+                <p><i class="fa fa-circle status-{{ foia.status.0|lower }}"></i> {{ foia.status.1 }}</p>
+              {% else %}
+                <p><i class="fa fa-circle status-pending"></i> Awaiting first response</p>
+              {% endif %}
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <p class="text-label text-right">From:</strong> {% spaceless %}
+                {% if foia.email.sender.last_name %}
+                  {{ foia.email.sender.last_name }}
+                {% else %}
+                  {{ foia.email.sender.email }}
+                {% endif %}
+              {% endspaceless %}</p>
+              <p class="text-label text-right">To:</strong> {{ foia.recipients_str }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <i class="fa fa-calendar"></i> Sent {{ foia.sent|date:"N j, Y" }}
+          {% with num_updates=foia.event_set.count %}
+            {% if num_updates > 0 %}
+              <span class="pull-right hidden-xs"><i class="fa fa-plus"></i> {{ num_updates }} update{{ num_updates|pluralize }}</span>
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+      <div class="panel-actions">
+        <a class="btn btn-primary" href="{% url 'foia-edit' pk=foia.pk %}"><i class="fa fa-edit"></i><span class="hidden-xs hidden-sm"> Edit</span></a>
+        <a class="btn btn-primary" href="{{ foia.add_event_url }}"><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm">  Update</span></a>
+      </div>
+    </div>
+  {% empty %}
+    <div class="alert alert-warning" role="alert">No requests found that match your search.</div>
+  {% endfor %}
+</div>
+{% if page_obj.has_other_pages %}
+  <div class="text-center">
+    {% bootstrap_pagination page_obj extra=filter_params %}
+  </div>
+{% endif %}
+{% endblock %}

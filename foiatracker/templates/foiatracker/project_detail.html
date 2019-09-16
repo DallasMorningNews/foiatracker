@@ -1,0 +1,44 @@
+{% extends 'foiatracker/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{{ project.name }} project{% endblock %}
+
+{% block content %}
+<div class="container-wide">
+  <div class="page-header">
+    <h1>{{ project.name }}</h1>
+    <p>{{ project.description }}</p>
+  </div>
+</div>
+
+<div class="container-wide container-panel">
+  <div class="row">
+    <div class="col-xs-12 col-md-7 col-lg-7">
+      <h3>Latest updates</h3>
+      <hr />
+      {% for update in recent_updates %}
+        <p>On {{ update.update_date }} <a href="{% url 'foia-edit' update.foia.pk %}">{{ update.foia }}</a></p>
+        <p><strong>{{ update.notes }}</strong></p>
+        <p><i class="fa fa-circle status-{{ update.status }}"></i> {{ update.get_status_display }}</p>
+        <hr />
+      {% endfor %}
+    </div>
+
+    <div class="col-xs-12 col-md-5 col-lg-4 col-lg-push-1">
+      <h3>Pending requests</h3>
+      <ul>
+        {% for request in pending_requests %}
+          <li><a href="{% url 'foia-edit' request.pk %}">{{ request }}</a></li>
+        {% endfor %}
+      </ul>
+
+      <h3>Finished requests</h3>
+      <ul>
+        {% for request in finished_requests %}
+          <li><a href="{% url 'foia-edit' request.pk %}">{{ request }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

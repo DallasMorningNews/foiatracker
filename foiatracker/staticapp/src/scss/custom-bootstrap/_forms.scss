@@ -1,0 +1,174 @@
+fieldset {
+  margin-bottom: 15px;
+}
+
+legend {
+  border-bottom-width: 2px;
+  font-size: 19px;
+  margin-left: -6px;
+  width: calc(100% + 12px);
+  padding: 15px 6px 2px;
+}
+
+label {
+  color: $gray;
+  font-size: 13px;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+// Tone down the spacing on the first fieldset in a form
+form.form fieldset:first-of-type legend:first-of-type {
+  padding-top: 10px;
+}
+
+.form-control {
+  @include box-shadow(inset 0 -1px 0 #cacaca);
+  @include transition(box-shadow 250ms);
+  padding: 0;
+
+  &:focus {
+    @include box-shadow(inset 0 -2px 0 $brand-primary);
+  }
+
+  &:disabled {
+    padding: 4px 8px;
+  }
+
+  // These need to be in separate rules to work ...
+  &::-webkit-input-placeholder {
+    color: transparent;
+  }
+  &:-moz-placeholder {
+    color: transparent;
+  }
+  &::-moz-placeholder {
+    color: transparent;
+  }
+  &:-ms-input-placeholder {
+    color: transparent;
+  }
+}
+
+.form-control-static {
+  padding-top: 2px;
+  min-height: $input-height-base;
+}
+
+/**
+ * At some point, we could take over all styling of <select>s ourselves by doing
+ * something like ...
+
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance : none;
+
+  &:after {
+    content: "^";
+  }
+}
+
+ *
+ */
+
+.form-submit-btns {
+  min-height: 50px;
+  position: fixed;
+  background: white;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #E5E5E5;
+  @include box-shadow(0 1px 6px rgba(0,0,0,0.16),0 3px 6px rgba(0,0,0,0.23));
+
+  .form-group {
+    margin: 6px 0;
+  }
+}
+
+// Django inline formsets
+label[for*="-DELETE"] {
+  margin-top: -10px;
+  margin-bottom: -5px;
+  padding-left: 16px;
+  display: block;
+}
+.checkbox input[name*="-DELETE"] {
+  margin-top: 3px;
+  margin-left: -16px;
+}
+
+.form-page {
+  padding-bottom: 5px;
+}
+
+// Form states
+.has-error .form-control {
+  border: none;
+  color: $state-danger-text;
+  border-bottom: 2px solid $state-danger-text;
+}
+.has-success .form-control {
+  border: none;
+  border-bottom: 1px solid #cacaca;
+}
+.has-success .form-control,
+.has-success .form-control:focus,
+.has-error .form-control,
+.has-error .form-control:focus {
+  @include box-shadow(none);
+}
+
+.help-block {
+  font-size: 12px;
+}
+
+.has-error {
+  .help-block {
+    font-weight: bold;
+  }
+}
+
+/**
+ * Collapsible fieldsets, enabled by adding the .collapsible class to the
+ * <fieldset> elemenet; optionally, add .collapsed to have it collapsed on init
+ */
+.collapsible {
+  border: 1px solid $panel-default-border;
+  padding: 0 20px 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  max-height: 50000px;
+  legend {
+    background: $gray-lighter;
+    border: 1px solid $panel-default-border;
+    margin-top: -1px;
+    margin-left: -21px;
+    width: calc(100% + 42px);
+    padding: 6px 20px;
+    float: left;
+    position: relative;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+    &::after {
+      @include fa-icon();
+      content: "\f0d7";  // down caret
+      position: absolute;
+      right: 20px;
+      top: 10px;
+    }
+    &:hover {
+      background: #E4E4E4;
+      border: 1px solid #C9C9C9;
+      color: #212121;
+    }
+  }
+  &.collapsed {
+    overflow: hidden;
+    max-height: 40px;
+    legend::after {
+      content: "\f0d8";  // up caret
+    }
+  }
+}

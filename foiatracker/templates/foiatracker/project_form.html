@@ -1,0 +1,50 @@
+{% extends 'foiatracker/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+  {% if project.pk %}
+    Edit "{{ project }}"
+  {% else %}
+    Create new project
+  {% endif %}
+{% endblock %}
+
+{% block body_classes %}form-page{% endblock %}
+
+{% block content %}
+<div class="container container-panel">
+  <div class="page-header">
+    <h1>{% if project.pk %}
+      Edit <em>"{{ project }}"</em>
+    {% else %}
+      Create new project
+    {% endif %}
+    </h1>
+  </div>
+  <form action="" method="post" class="form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    <fieldset>
+      <legend>Project details</legend>
+      {% bootstrap_field field=form.name %}
+      {% bootstrap_field field=form.description %}
+      {% bootstrap_field field=form.collaborators %}
+    </fieldset>
+    <div class="form-submit-btns">
+      <div class="container">
+        {% buttons %}
+        {% comment %}
+          {% if foia.id %}
+            <a class="btn btn-primary" href="{% url 'foia-delete' pk=foia.id %}">Delete</a>
+          {% endif %}
+        {% endcomment %}
+          <div class="pull-right">
+            <a class="btn btn-primary" href="{% url 'project-list' %}">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-primary-action">Save</button>
+          </div>
+        {% endbuttons %}
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

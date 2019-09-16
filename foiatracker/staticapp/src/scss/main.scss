@@ -1,0 +1,123 @@
+@mixin fa-icon() {
+  // See https://github.com/FortAwesome/Font-Awesome/blob/abb4a83c4386d0f552209a3b6fa18e46b93404da/src/_includes/code/core.scss
+  display: inline-block;
+  font: normal normal normal 14px FontAwesome; // shortening font declaration
+  font-size: inherit; // can't have font-size inherit on line above, so need to override
+  text-rendering: auto; // optimizelegibility throws things off #1094
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@import "variables";
+@import "custom-bootstrap/bootstrap";
+@import "custom-bootstrap/buttons";
+@import "custom-bootstrap/navbar";
+@import "custom-bootstrap/forms";
+@import "custom-bootstrap/grid";
+@import "custom-bootstrap/panels";
+@import "custom-bootstrap/text";
+@import "custom-bootstrap/mixins";
+@import "custom-bootstrap/alerts";
+@import "custom-bootstrap/filters";
+
+@import "text-area";
+
+@import "../../vendor/jquery-date-range-picker/daterangepicker";
+@import "../../node_modules/selectize/dist/css/selectize.bootstrap3";
+@import "selectize";
+
+
+$foiatracker-primary: #77af41;
+
+.panel-with-actions {
+  h2 {
+    margin-top: 5px;
+  }
+  &.panel-foia {
+    .col-sm-4 {
+      p {
+        word-break: break-all;
+      }
+    }
+  }
+}
+
+.navbar .fa-lock {
+  color: #74F5A9;
+}
+
+.status-pending {
+  color: $brand-info;
+}
+.status-denied {
+  color: $brand-danger;
+}
+.status-relatg,
+.status-relagc {
+  color: $brand-success;
+}
+.status-kicked {
+  color: $brand-warning;
+}
+.status-wthdrwn {
+  color: lighten(desaturate($brand-success, 60%), 20%);
+}
+
+.navbar.navbar-inverse {
+  @include dmn-navbar($foiatracker-primary);
+}
+
+// TODO: These styles should be abstracted out into generic styles for
+// outside-the-white-container forms, but deadlines ...
+.form-search {
+  .input {
+    background: white;
+    border: 1px solid #d0d0d0;
+    padding: 15px 10px;
+    height: 38px;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 2px rgba(10,10,10,0.1);
+
+    // These need to be in separate rules to work ...
+    &::-webkit-input-placeholder {
+      color: #d0d0d0;
+      font-weight: lighter;
+    }
+    &:-moz-placeholder {
+      color: #d0d0d0;
+      font-weight: lighter;
+    }
+    &::-moz-placeholder {
+      color: #d0d0d0;
+      font-weight: lighter;
+    }
+    &:-ms-input-placeholder {
+      color: #d0d0d0;
+      font-weight: lighter;
+    }
+  }
+  .help-text {
+    margin-top: 3px;
+    font-size: 15px;
+  }
+  .btn {
+    background: none;
+    border: none;
+    color: #9E9E9E;
+  }
+}
+
+.page-header {
+  padding-bottom: 0;
+}
+
+.form-group + .help-block {
+  margin-top: -10px;
+}
+
+.badge-project {
+  background: $brand-primary;
+  font-weight: normal;
+  margin-bottom: 5px;
+  border-radius: 2px;
+}

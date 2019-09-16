@@ -1,0 +1,32 @@
+.selectize-control .selectize-input {
+  border: none;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+  @include box-shadow(none);
+  @include box-shadow(inset 0 -1px 0 #cacaca);
+  @include transition(box-shadow 250ms);
+  &.focus {
+    @include box-shadow(inset 0 -2px 0 $brand-primary);
+  }
+}
+
+.selectize-control.multi .selectize-input.has-items {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.selectize-dropdown, .selectize-dropdown.form-control {
+  margin-top: 0;
+  border: none;
+
+  .selectize-dropdown-content {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    > div {
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+// Because we often attach stuff to the bottom of the viewport
+body {
+  margin-bottom: 60px;
+}
+
+// An alternative to the built-in Bootstrap container that basically turns
+// the whole page into a .panel
+.container.container-panel,
+.container-fluid.container-panel,
+.container-wide.container-panel {
+  background-color: #fff;
+  border: 1px solid $gray-light;
+  @include box-shadow(0 3px 6px rgba(0,0,0,0.16),0 3px 6px rgba(0,0,0,0.23));
+  margin-bottom: $padding-large-vertical * 2;
+  padding: 16px $padding-large-horizontal * 2;
+  max-width: $container-desktop - $grid-gutter-width;
+
+  > .page-header {
+    background: #F5F5F5;
+    border-bottom: 1px solid #D9D9D9;
+    padding: 16px $padding-large-horizontal * 2;
+    margin: -16px $padding-large-horizontal * -2 $padding-large-vertical * 2;
+
+    > h1 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.container-wide.container-panel,
+.container-wide {
+  @include center-block();
+  @media(min-width: $screen-lg-min) {
+    max-width: 1000px;
+  }
+}

@@ -1,0 +1,20 @@
+{% extends 'foiatracker/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}Are you sure you want to delete <em>"{{ object }}"?</em>{% endblock %}
+
+{% block content %}
+  <div class="container container-panel">
+    <div class="page-header">
+      <h1>Are you sure you want to delete <em>"{{ object }}"?</em></h1>
+    </div>
+    <form action="" method="post" class="form">
+      {% csrf_token %}
+      {% buttons %}
+        <button type="submit" class="btn btn-danger">Yes, I'm sure</button>
+        <a href="{% url 'event-edit' pk=event.id %}" class="btn btn-link">Cancel</a>
+      {% endbuttons %}
+    </form>
+  </div>
+{% endblock %}

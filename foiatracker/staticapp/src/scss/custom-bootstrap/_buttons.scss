@@ -1,0 +1,20 @@
+.btn {
+  text-transform: uppercase;
+}
+
+.form-submit-btns {
+  .btn {
+    font-weight: 500;
+  }
+
+  .btn-primary {
+    @include button-variant($brand-primary, #fff, transparent);
+  }
+  .btn-danger {
+    @include button-variant($brand-danger, #fff, transparent);
+  }
+
+  .btn-primary-action {
+    @include button-variant($gray-dark, #fff, transparent);
+  }
+}

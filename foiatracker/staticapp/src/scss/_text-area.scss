@@ -1,0 +1,20 @@
+// via http://www.impressivewebs.com/textarea-auto-resize/, works with JS
+// in main.js to handle dynamically-resizing textareas
+
+textarea {
+    overflow: hidden;
+    resize: none;
+}
+
+.hiddendiv {
+    overflow: hidden;
+    height: auto;
+    display: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word; /* future version of deprecated 'word-wrap' */
+
+    .lbr {
+        line-height: 15px;
+    }
+}
