@@ -30,7 +30,7 @@
     "gulp-requirejs-optimize": "^0.3.2",
     "gulp-sass": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
-    "jquery": "^2.2.3",
+    "jquery": "^3.5.0",
     "moment": "^2.13.0",
     "selectize": "^0.12.1"
   }
